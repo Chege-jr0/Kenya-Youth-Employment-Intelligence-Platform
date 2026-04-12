@@ -1,0 +1,49 @@
+education_level,year,employment_rate,male_employment_rate,female_employment_rate
+No Formal Education,2018,107.0,115.1,102.7
+No Formal Education,2019,-34.4,-36.1,-32.3
+No Formal Education,2020,113.9,119.1,101.5
+No Formal Education,2021,-3.1,-3.2,-2.8
+No Formal Education,2022,59.1,64.5,54.5
+No Formal Education,2023,-29.2,-31.4,-27.0
+No Formal Education,2024,27.2,29.7,25.8
+No Formal Education,2025,-18.0,-19.3,-16.8
+Primary Education,2018,130.1,142.0,124.3
+Primary Education,2019,55.2,59.0,49.6
+Primary Education,2020,19.6,21.3,18.6
+Primary Education,2021,30.7,33.2,28.2
+Primary Education,2022,102.7,109.8,97.5
+Primary Education,2023,-38.4,-40.4,-35.7
+Primary Education,2024,-58.6,-60.3,-53.5
+Primary Education,2025,35.8,39.2,32.7
+Secondary Education,2018,88.1,96.9,84.0
+Secondary Education,2019,-104.1,-114.3,-99.0
+Secondary Education,2020,78.3,80.5,72.5
+Secondary Education,2021,109.8,116.9,99.7
+Secondary Education,2022,37.5,40.9,33.3
+Secondary Education,2023,-96.4,-105.7,-87.1
+Secondary Education,2024,11.0,11.4,10.2
+Secondary Education,2025,66.8,69.6,63.4
+Vocational Training,2018,119.5,124.6,111.5
+Vocational Training,2019,139.9,151.6,125.1
+Vocational Training,2020,94.1,103.3,85.5
+Vocational Training,2021,-76.3,-79.9,-70.6
+Vocational Training,2022,-57.3,-61.3,-50.7
+Vocational Training,2023,125.4,128.8,112.4
+Vocational Training,2024,17.6,18.6,16.6
+Vocational Training,2025,-94.7,-101.8,-85.4
+University Degree,2018,36.4,38.7,32.6
+University Degree,2019,-47.1,-50.9,-43.2
+University Degree,2020,21.3,23.3,19.8
+University Degree,2021,6.8,7.2,6.1
+University Degree,2022,-25.6,-26.2,-24.4
+University Degree,2023,-1.4,-1.5,-1.3
+University Degree,2024,-51.7,-54.6,-47.4
+University Degree,2025,-61.0,-66.2,-55.1
+Postgraduate Degree,2018,35.7,36.9,32.9
+Postgraduate Degree,2019,40.1,43.2,37.7
+Postgraduate Degree,2020,25.4,26.7,23.9
+Postgraduate Degree,2021,-49.5,-54.1,-45.3
+Postgraduate Degree,2022,33.5,36.4,30.0
+Postgraduate Degree,2023,21.6,23.0,20.6
+Postgraduate Degree,2024,61.5,66.0,57.5
+Postgraduate Degree,2025,-16.2,-17.7,-14.3
