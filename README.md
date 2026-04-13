@@ -22,10 +22,20 @@ An AI-powered data platform that tracks, analyses and generates policy insights 
 ## Apache Airflow Pipeline
 
 ## SQLite Database
+Loaded data into SQLite3 and closed the database instead of leaving it open with close()
+
+The file stored include county_unemployment.csv, education_employment.csv, industry_employment.csv and, world_bank_unemployment.csv
 
 ## AI Insights Layer
 
 ## Streamlit Dashboard
+
+Started off with metrics including the:
+1. National Youth Unemployment rate
+2. County with the Highest Unemployment
+3. County with the lowest unemployment
+4. Average Gender Gap 
+5. Rural Urban Gap
 
 ## License
 MIT License - feel free to use, modify and build on this project.
