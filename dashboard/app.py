@@ -1,11 +1,10 @@
-"""
-This file is the visual layer of the whole project.
-It reads data directly from thr sqlite database and displays 6 interactive charts thate tells the story of unemployment in Kenya.
-Generates AI policy insights on demand using plain English.
-"""
 
-import streamlit as st
+# This file is the visual layer of the whole project.
+# It reads data directly from thr sqlite database and displays 6 interactive charts thate tells the story of unemployment in Kenya.
+# Generates AI policy insights on demand using plain English.
+
 import pandas as pd
+import streamlit as st
 import plotly.express as px
 import sqlite3
 import sys
@@ -14,12 +13,12 @@ import os
 # Add src folder to path so we can import ai_insights
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-DATABASE_PATH = "database/employment.db"
+DATABASE_PATH = "database/employment_db"
 
 st.set_page_config(
     page_title = "Kenya Youth Employment Intelligence",
     page_icon = "🇰🇪",
-    page_layout = "wide"
+    layout = "wide"
 )
 st.title("🇰🇪 Kenya Youth Employment Intelligence Platform")
 st.markdown("AI-powered insights on youth unemployment across Kenya(Built for policymakers and development organisations)")
@@ -42,11 +41,10 @@ national_df, county_df, education_df, industry_df = load_data()
 
 
 # Adding Filters to the Dashboard
-"""
-reverse = True -> shows most recent year first in the dropdown
-.unique() -> gets all unique values in the dataset, automatically includes new years when pipeline runs
-toList() converts it to a list
-"""
+# reverse = True -> shows most recent year first in the dropdown
+# .unique() -> gets all unique values in the dataset, automatically includes new years when pipeline runs
+# toList() converts it to a list
+
 st.sidebar.title("Dashboard Filters")
 st.sidebar.markdown("---")
 
@@ -69,14 +67,15 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("Pipeline runs every Monday 8:00 am via Apache Airflow")
 
 # Adding a subheader
-"""
-This section is the subheader of the dashboard
-st.metric has a delta parameter that shows a change indicator
-positive delta -> green arrow
-negative delta -> red arrow
-idxmax() and idxmin() returns the index of the highest value and the lowest value
-Then .loc[index, 'county'] gets the county name at that index
-"""
+
+# This section is the subheader of the dashboard
+# st.metric has a delta parameter that shows a change indicator
+# positive delta -> green arrow
+# negative delta -> red arrow
+# idxmax() and idxmin() returns the index of the highest value and the lowest value
+# Then .loc[index, 'county'] gets the county name at that index
+
+
 st.subheader("National Overview")
 
 latest_national = national_df.sort_values("year").iloc[-1]
@@ -121,9 +120,9 @@ with col5:
 st.markdown("---")    
 
 
-"""
-add_hline() used to show a horizontal reference line across the chart using the mean
-"""
+
+# add_hline() used to show a horizontal reference line across the chart using the mean
+
 
 st.subheader("Youth Unemployment Trends and County Analysis")
 
@@ -168,12 +167,12 @@ with col2:
         y = "county",
         orientation = "h",
         title = f"Youth Unemployment by County ({selected_year})",
-        label = {
+        labels = {
             "overall_unemployment_rate": "Unemployment Rate(%)",
             "county": "County"
         },
         color = "overall_unemployment_rate",
-        color_continous_scale = "RdYlGn_r"
+        color_continuous_scale = "RdYlGn"
     )
     fig_county.update_layout(
         plot_bgcolor = "white",
@@ -192,10 +191,10 @@ st.subheader("Gender Gap and Urban-Rural Divide")
 col1, col2 = st.columns(2)
 
 with col1:
-    """
-    If a specific county is selected, it shows the county gender gap,
-    if all counties selected, show the national average gender gap.
-    """
+    
+   #  If a specific county is selected, it shows the county gender gap,
+   #  if all counties selected, show the national average gender gap.
+    
 
     if selected_county != "All Counties":
         gender_data = county_df[county_df["county"] == selected_county]
@@ -266,7 +265,7 @@ col1, col2 = st.columns(2)
 with col1:
     education_latest = education_df[
         education_df["year"] == selected_year
-    ].sort_values("unemployment_rate", ascending = True)
+    ].sort_values("employment_rate", ascending = True)
 
     fig_education = px.bar(
         education_latest,
@@ -279,7 +278,7 @@ with col1:
             "education_level": "Education Level"
         },
         color = "employment_rate",
-        color_continous_scale = "Blues",
+        color_continuous_scale = "Blues",
         text = "employment_rate"
     )
     fig_education.update_traces(texttemplate="%{text}%", textposition="outside")
@@ -292,7 +291,7 @@ with col1:
     with col2:
         industry_latest = industry_df[
             industry_df["year"] == selected_year
-        ].sort_values("youth_absorption_rate", ascedning = False)
+        ].sort_values("youth_absorption_rate", ascending = False)
 
         fig_industry = px.bar(
             industry_latest,
@@ -304,7 +303,7 @@ with col1:
                 "sector": "Industry Sector"
             }, 
             color = "youth_absorption_rate",
-            color_continous_scale = "Viridis",
+            color_continuous_scale = "Viridis",
             text = "youth_absorption_rate"
         )
         fig_industry.update_traces(
@@ -319,3 +318,131 @@ with col1:
         st.plotly_chart(fig_industry, use_container_width=True)
 
 st.markdown("---")
+
+st.subheader("AI Policy Insights")
+
+col1, col2 = st.columns([2, 1])
+
+with col1:
+    if st.button("Generate Policy Insights"):
+        with st.spinner("Analysing Kenya Employment data ..."):
+            try:
+                #from ai_insights import generate_employment_insights
+
+                context = {
+                    "national_rate": latest_national["unemployment_rate"],
+                    "year_on_year": latest_national["year_on_year_change"],
+                    "worst_county": latest_county.loc[
+                        latest_county["overall_unemployment_rate"].idxmax(), "county"
+                    ],
+                    "worst_rate": latest_county["overall_unemployment_rate"].max(),
+                    "best_county": latest_county.loc[
+                        latest_county["overall_unemployment_rate"].idxmin(), "county"
+                    ], 
+                    "best_rate": latest_county["overall_unemployment_rate"].min(),
+                    "avg_gender_gap": avg_gender_gap,
+                    "selected_year": selected_year
+
+                }
+                insights = generate_employment_insights(context)
+                st.success("AI Policy Analysis")
+
+            except Exception as e:
+                st.error(f"AI unavailable, Make sure Ollama is running")
+                    
+with col2:
+    st.info("""
+How to use:
+            
+1. Use sidebar filters to focus on specific year or county
+2. Click Generate Policy Insights for AI Analysis
+3. Or ask you own question
+
+    Example Question
+- Which county need the most urgent intervention?
+- What is driving the gender gap?
+- Which Industry should the youth target?
+                                    
+""")      
+    st.markdown("---")
+    st.subheader("Ask the AI anything about Kenya Youth Employment")
+
+    question = st.text_input(
+         "Type your Question:",
+         placeholder = "eg. Which county has the worst female unemployment? What drives rural employment?"
+
+    )
+    if st.button("Ask AI"):
+        if question == "":
+            st.warning("Please type a question first!")
+        else:
+            with st.spinner("Thinking, a minute please"):
+                try:
+                    from ai_insights import generate_employment_question
+
+                    context = {
+                        "national_rate": latest_national["unemployment_rate"],
+                        "year_on_year": latest_national["year_on_year_change"],
+                        "worst_county": latest_county.loc[
+                            latest_county["overall_unemployment_rate"].idxmax(), "county"
+                        ],
+                        "worst_rate": latest_county["overall_unemployment_rate"].max(),
+                        "best_county": latest_county.loc[
+                            latest_county["overall_unemployment_rate"].idxmin(), "county"
+                        ],
+                        "best_rate": latest_county["overall_unemployment_rate"].min(),
+                        "avg_gender_gap": avg_gender_gap,
+                        "selected_year": selected_year
+                    }    
+
+                    answer = ask_employment_question(question, context)
+                    st.success("After doing some reseacrh:")
+                    st.write(answer)
+                except Exception as e:
+                    st.error(f"AI unavailable. Make sure Ollam is running. {e}")
+
+
+# Footer Section
+st.markdown("---")
+st.subheader("Raw Data Explorer")
+
+table_choice = st.selectbox(
+    "Select data to explore:",
+    options = [
+       "National Unemployment",
+       "County Unemployment",
+       "Education Employment",
+       "Industry Employment" 
+    ]
+)
+
+if st.checkbox("Show Raw Data"):
+    if table_choice == "National Unemployment":
+        st.dataframe(national_df, use_container_width = True)
+    elif table_choice == "County Unemployment":
+        if selected_county != "All Counties":
+            st.dataframe(
+                county_df[county_df["county"] == selected_county],
+                use_container_width = True
+            )    
+        else:
+            st.dataframe(
+                county_df[county_df["year"] == selected_year],
+                use_container_width = True
+            )  
+    elif table_choice == "Education Employment":
+        st.dataframe(
+            education_df[education_df["year"] == selected_year],
+            use_container_width = True
+        )  
+    elif table_choice == "Industry Employment":
+        st.dataframe(
+            industry_df[industry_df["year"] == selected_year],
+            use_container_width = True
+        )  
+
+st.markdown("---")
+st.caption("""
+Kenya Youth Employment Intelligence Platform || Built with Streamlit, Plotly, SQLite, Apache Airflow and Ollama || Data: KNBS, World Bank, Kenya Economic Survey
+""")    
+st.caption("""Built by Paul Gikonyo || Data Analyst@Everything Data Africa""")    
