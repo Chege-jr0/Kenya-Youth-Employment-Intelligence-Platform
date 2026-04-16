@@ -16,7 +16,7 @@ This function is going to clean and enrich national unemployment data
 def transform_national_data():
     print ("Transforming the world bank data")
 
-    #df = pd.read_csv(f""{RAW_DATA_PATH}/world_bank_unemployment.csv")
+    df = pd.read_csv(f"{RAW_DATA_PATH}/world_bank_unemployment.csv")
 
     df = df.dropna() # dropping missing value
     df = df.drop_duplicates() # dropping duplicates
@@ -84,7 +84,7 @@ This function transforms the education level data and categorise educational lev
 def transform_education_data():
     print("Transforming Education data ...")
 
-    df = pd.read_csv(f"{RAW_DATA_PATH}/education_unemployment.csv")
+    df = pd.read_csv(f"{RAW_DATA_PATH}/education_employment.csv")
 
     df = df.dropna()
     df = df.drop_duplicates()
@@ -150,13 +150,13 @@ def transform_industry_data():
 
 # Transform function
 """
-Thi
+This is the main function that calls all the other transform functions and returns a dictionary of transformed dataframes
 
 """
 def transform_all():
     print("Starting data transformation..")
 
-    #national = transform_national_data()
+    national = transform_national_data()
     county = transform_county_data()
     education = transform_education_data()
     industry = transform_industry_data()
@@ -164,7 +164,7 @@ def transform_all():
     print("All data transformed successfully")
 
     return {
-        #"national": national,
+        "national": national,
         "county": county,
         "education": education, 
         "industry": industry
@@ -172,6 +172,4 @@ def transform_all():
 
 
 if __name__ == "__main__":
-    data = transform_all()
-
-    print(data).head()
+    transform_all()

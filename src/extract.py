@@ -23,36 +23,60 @@ def setup_folders():
     The API is free, and returns up to 100 records for 20 years of the most recent data
     if the item["value"] is not None, some years might have missing data, so we skip those to keep our dataset clean.
 """
+import requests
+import pandas as pd
+
 def extract_world_bank_data():
     print("Pulling data from the World Bank")
 
     url = "https://api.worldbank.org/v2/country/KE/indicator/SL.UEM.1524.ZS"
+
     params = {
         "format": "json",
         "per_page": 100,
         "mrv": 20
     }
 
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
     try:
-        response = requests.get(url, params=params, timeout=10)
+        response = requests.get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=30   # increased timeout
+        )
+
+        response.raise_for_status()  #  catches HTTP errors
+
         data = response.json()
 
-        records  = []
+        #  safety check
+        if not data or len(data) < 2:
+            print("Unexpected API response format")
+            return None
+
+        records = []
+
         for item in data[1]:
-            if item["value"] is not None:
+            if item.get("value") is not None:
                 records.append({
                     "year": int(item["date"]),
                     "unemployment_rate": round(float(item["value"]), 2),
                     "country": "Kenya",
-                    "source" : "World Bank"
+                    "source": "World Bank"
                 })
-        df = pd.DataFrame(records)
-        df = df.sort_values("year")   
 
-        filepath = f"{RAW_DATA_PATH}/world_bank_unemployment.csv"   
+        df = pd.DataFrame(records)
+        df = df.sort_values("year")
+
+        filepath = f"{RAW_DATA_PATH}/world_bank_unemployment.csv"
         df.to_csv(filepath, index=False)
+
         print(f"World Bank data extracted! {len(df)} records saved.")
-        
+        return df
 
     except Exception as e:
         print(f"World Bank data Extraction Failed: {e}")

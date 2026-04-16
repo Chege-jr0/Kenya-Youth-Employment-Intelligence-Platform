@@ -11,7 +11,16 @@ import sys
 import os
 
 # Add src folder to path so we can import ai_insights
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+src_path = os.path.join(project_root, 'src')
+
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)    
+
+from  ai_insights import generate_employment_insights, ask_employment_question    
 
 DATABASE_PATH = "database/employment_db"
 
@@ -327,20 +336,24 @@ with col1:
     if st.button("Generate Policy Insights"):
         with st.spinner("Analysing Kenya Employment data ..."):
             try:
-                #from ai_insights import generate_employment_insights
-
+            
                 context = {
                     "national_rate": latest_national["unemployment_rate"],
                     "year_on_year": latest_national["year_on_year_change"],
+
                     "worst_county": latest_county.loc[
                         latest_county["overall_unemployment_rate"].idxmax(), "county"
                     ],
+
                     "worst_rate": latest_county["overall_unemployment_rate"].max(),
+
                     "best_county": latest_county.loc[
                         latest_county["overall_unemployment_rate"].idxmin(), "county"
                     ], 
                     "best_rate": latest_county["overall_unemployment_rate"].min(),
+
                     "avg_gender_gap": avg_gender_gap,
+
                     "selected_year": selected_year
 
                 }
@@ -378,19 +391,28 @@ How to use:
         else:
             with st.spinner("Thinking, a minute please"):
                 try:
-                    from ai_insights import generate_employment_question
+                    from src.ai_insights import generate_employment_question
 
                     context = {
                         "national_rate": latest_national["unemployment_rate"],
                         "year_on_year": latest_national["year_on_year_change"],
+
                         "worst_county": latest_county.loc[
                             latest_county["overall_unemployment_rate"].idxmax(), "county"
                         ],
-                        "worst_rate": latest_county["overall_unemployment_rate"].max(),
+
+                       "worst_rate": round(
+                            float(latest_county["overall_unemployment_rate"].max(), 1)              
+                       ),
+
                         "best_county": latest_county.loc[
                             latest_county["overall_unemployment_rate"].idxmin(), "county"
                         ],
-                        "best_rate": latest_county["overall_unemployment_rate"].min(),
+
+                        "best_rate": round(
+                            float(latest_county["overall_unemployment_rate"].min(),), 1
+                        ),
+
                         "avg_gender_gap": avg_gender_gap,
                         "selected_year": selected_year
                     }    
@@ -399,7 +421,7 @@ How to use:
                     st.success("After doing some reseacrh:")
                     st.write(answer)
                 except Exception as e:
-                    st.error(f"AI unavailable. Make sure Ollam is running. {e}")
+                    st.error(f"AI unavailable. Make sure Ollama is running. {e}")
 
 
 # Footer Section
