@@ -1,4 +1,4 @@
-# This file connects to TinyLlama via Ollama and generates policy insights and answers questions that the user asks anything about youth employment.
+# This file connects to TinyLlama  via Ollama and generates policy insights and answers questions that the user asks anything about youth employment.
 
 import ollama
 
@@ -72,13 +72,12 @@ def generate_employment_insights(context: dict) -> str:
             model = "tinyllama",
             messages = [{"role": "user", "content": prompt}]
         )
+        return response["message"]["content"]
     except Exception as e:
         return f"AI unavailable. Make sure ollama is running: {str(e)}"  
 
 def ask_employment_question(question: str, context: dict) -> str:
-    """
-    Answer a specific question about Kenya youth employment data.
-    """     
+   
     brief = prepare_employment_context(context)
 
     prompt = f"""You are a senior policy analyst specialising in Kenya Youth employment and labour markets.
@@ -97,7 +96,9 @@ def ask_employment_question(question: str, context: dict) -> str:
         response = ollama.chat(
             model = "tinyllama",
             messages = [{"role": "user", "content": prompt}]
+            
         )
+        return response["messages"]["content"]
     except Exception as e:
         return f"Could not get answer. Make sure ollama is running. {str(e)}"
     

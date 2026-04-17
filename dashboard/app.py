@@ -20,7 +20,7 @@ if src_path not in sys.path:
 if project_root not in sys.path:
     sys.path.insert(0, project_root)    
 
-from  ai_insights import generate_employment_insights, ask_employment_question    
+from  src.ai_insights import generate_employment_insights, ask_employment_question    
 
 DATABASE_PATH = "database/employment_db"
 
@@ -359,6 +359,7 @@ with col1:
                 }
                 insights = generate_employment_insights(context)
                 st.success("AI Policy Analysis")
+                st.write(insights)
 
             except Exception as e:
                 st.error(f"AI unavailable, Make sure Ollama is running")
@@ -391,8 +392,7 @@ How to use:
         else:
             with st.spinner("Thinking, a minute please"):
                 try:
-                    from src.ai_insights import generate_employment_question
-
+                   
                     context = {
                         "national_rate": latest_national["unemployment_rate"],
                         "year_on_year": latest_national["year_on_year_change"],
@@ -417,8 +417,8 @@ How to use:
                         "selected_year": selected_year
                     }    
 
-                    answer = ask_employment_question(question, context)
-                    st.success("After doing some reseacrh:")
+                    answer = ask_employment_question(context)
+                    st.success("After doing some research:")
                     st.write(answer)
                 except Exception as e:
                     st.error(f"AI unavailable. Make sure Ollama is running. {e}")
