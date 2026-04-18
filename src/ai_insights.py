@@ -6,16 +6,6 @@ def prepare_employment_context(context: dict) -> str:
     """
     Convert employment statistics into a readable brief for the AI
     """
-    # Safety defaults in case any key is missing
-
-    national_rate = context.get("national_rate", "N/A")
-    year_on_year = context.get("year_on_year", "N/A")
-    worst_county = context.get("worst_county", "N/A")
-    worst_rate = context.get("worst_rate", "N/A")
-    best_county = context.get("best_county", "N/A")
-    best_rate = context.get("best_rate", "N/A")
-    avg_gender_gap = context.get("avg_gender_gap", "N/A")
-    selected_year = context.get("selected_year", "N/A")
     
     return f"""
     Kenya Youth Employment Intelligence Brief ({context['selected_year']}):
@@ -77,51 +67,56 @@ def generate_employment_insights(context: dict) -> str:
         return f"AI unavailable. Make sure ollama is running: {str(e)}"  
 
 def ask_employment_question(question: str, context: dict) -> str:
-   
+    """
+    Answer a specific question about
+    Kenya youth employment data.
+    """
     brief = prepare_employment_context(context)
 
-    prompt = f"""You are a senior policy analyst specialising in Kenya Youth employment and labour markets.
-    Use the data brief below to answer the question accurately.
-    Be specific - mention county names, percentages and trends.
-    If the answer requires data not in the brief, say:
-    "This requires additional data beyond the current brief."
+    prompt = f"""You are a senior policy analyst specialising 
+in Kenya youth employment and labour markets.
 
-    {brief}
+Use the data brief below to answer the question accurately.
+Be specific — mention county names, percentages and trends.
+If the answer requires data not in the brief, say:
+"This requires additional data beyond the current brief."
 
-    Question: {question}
+{brief}
 
-    Answer:"""
+Question: {question}
+
+Answer:"""
 
     try:
         response = ollama.chat(
-            model = "tinyllama",
-            messages = [{"role": "user", "content": prompt}]
-            
+            model="tinyllama",
+            messages=[{"role": "user", "content": prompt}]
         )
-        return response["messages"]["content"]
+        return response["message"]["content"]
+
     except Exception as e:
-        return f"Could not get answer. Make sure ollama is running. {str(e)}"
+        return f" Could not get answer. Make sure Ollama is running.\nError: {str(e)}"
     
 
 if __name__ == "__main__":
-  test_context = {
-      "national_rate": 13.9,
-      "year_on_year": "Mandera",
-      "worst_county": 48.2,
-      "best_county": "Nairobi",
-      "best_rate": 18.5,
-      "avg_gender_gap": 4.2,
-      "selected_year": 2024
+    test_context = {
+        "national_rate": 13.9,
+        "year_on_year": -0.8,
+        "worst_county": "Mandera",
+        "worst_rate": 48.2,
+        "best_county": "Nairobi",
+        "best_rate": 18.5,
+        "avg_gender_gap": 4.2,
+        "selected_year": 2024
+    }
 
-  }    
-
-  print("Testing AI Insights...")
-  print("-" * 50)
-  insights = generate_employment_insights(test_context)
-  print(insights)
-  print("-" * 50)
-  answer = ask_employment_question(
-      "Which county needs the most intervention?",
-      test_context
-  )
-  print(answer)
+    print("Testing AI insights...")
+    print("=" * 50)
+    insights = generate_employment_insights(test_context)
+    print(insights)
+    print("=" * 50)
+    answer = ask_employment_question(
+        "Which county needs the most urgent intervention?",
+        test_context
+    )
+    print(answer)

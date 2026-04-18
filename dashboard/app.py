@@ -75,6 +75,26 @@ st.sidebar.markdown("Kenya Economic Survey")
 st.sidebar.markdown("---")
 st.sidebar.markdown("Pipeline runs every Monday 8:00 am via Apache Airflow")
 
+# Building context for the AI
+def build_context():
+    return {
+        "national_rate": float(latest_national["unemployment_rate"]),
+        "year_on_year": float(latest_national["year_on_year_change"])
+                        if pd.notna(latest_national["year_on_year_change"])
+                        else 0.0,
+        "worst_county": str(latest_county.loc[
+            latest_county["overall_unemployment_rate"].idxmax(), "county"
+        ]),
+        "worst_rate": float(latest_county["overall_unemployment_rate"].max()),
+        "best_county": str(latest_county.loc[
+            latest_county["overall_unemployment_rate"].idxmin(), "county"
+        ]),
+        "best_rate": float(latest_county["overall_unemployment_rate"].min()),
+        "avg_gender_gap": float(avg_gender_gap),
+        "selected_year": int(selected_year)
+    }
+
+
 # Adding a subheader
 
 # This section is the subheader of the dashboard
@@ -336,27 +356,7 @@ with col1:
     if st.button("Generate Policy Insights"):
         with st.spinner("Analysing Kenya Employment data ..."):
             try:
-            
-                context = {
-                    "national_rate": latest_national["unemployment_rate"],
-                    "year_on_year": latest_national["year_on_year_change"],
-
-                    "worst_county": latest_county.loc[
-                        latest_county["overall_unemployment_rate"].idxmax(), "county"
-                    ],
-
-                    "worst_rate": latest_county["overall_unemployment_rate"].max(),
-
-                    "best_county": latest_county.loc[
-                        latest_county["overall_unemployment_rate"].idxmin(), "county"
-                    ], 
-                    "best_rate": latest_county["overall_unemployment_rate"].min(),
-
-                    "avg_gender_gap": avg_gender_gap,
-
-                    "selected_year": selected_year
-
-                }
+                context = build_context()
                 insights = generate_employment_insights(context)
                 st.success("AI Policy Analysis")
                 st.write(insights)
@@ -392,32 +392,8 @@ How to use:
         else:
             with st.spinner("Thinking, a minute please"):
                 try:
-                   
-                    context = {
-                        "national_rate": latest_national["unemployment_rate"],
-                        "year_on_year": latest_national["year_on_year_change"],
-
-                        "worst_county": latest_county.loc[
-                            latest_county["overall_unemployment_rate"].idxmax(), "county"
-                        ],
-
-                       "worst_rate": round(
-                            float(latest_county["overall_unemployment_rate"].max(), 1)              
-                       ),
-
-                        "best_county": latest_county.loc[
-                            latest_county["overall_unemployment_rate"].idxmin(), "county"
-                        ],
-
-                        "best_rate": round(
-                            float(latest_county["overall_unemployment_rate"].min(),), 1
-                        ),
-
-                        "avg_gender_gap": avg_gender_gap,
-                        "selected_year": selected_year
-                    }    
-
-                    answer = ask_employment_question(context)
+                    context = build_context()
+                    answer = ask_employment_question(question, context)
                     st.success("After doing some research:")
                     st.write(answer)
                 except Exception as e:
