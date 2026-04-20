@@ -187,7 +187,7 @@ with col1:
 with col2:
     county_sorted = latest_county.sort_values(
         "overall_unemployment_rate",
-        ascending =  True
+        ascending =  False
     )
 
     fig_county = px.bar(
@@ -294,7 +294,7 @@ col1, col2 = st.columns(2)
 with col1:
     education_latest = education_df[
         education_df["year"] == selected_year
-    ].sort_values("employment_rate", ascending = True)
+    ].sort_values("employment_rate", ascending = False)
 
     fig_education = px.bar(
         education_latest,

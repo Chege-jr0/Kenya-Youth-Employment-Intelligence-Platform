@@ -109,12 +109,13 @@ def transform_education_data():
         "Primary Education",
         "Secondary Education",
         "University Degree",
-        "Postgraduate"
+        "Vocational Training",
+        "Postgraduate Degree"
     ]
     df["education_level"] = pd.Categorical(
         df["education_level"],
         categories = education_order,
-        ordered=True
+        ordered=False
     )
     df = df.sort_values(["education_level", "year"])
 
