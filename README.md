@@ -25,10 +25,12 @@ This platform changes all that by creating building automated ETL pipelines, str
 
 
 ## Project Architecture
+<img width="695" height="792" alt="Screenshot 2026-04-20 164234" src="https://github.com/user-attachments/assets/57988f25-ccc9-47cf-a06e-c81dadc2e14d" />
+
 
 ## Project Structure
-
-KE_Une/
+```markdown
+KE_Unemployment/
 │
 ├── dags/
 │   └── pipeline.py               # Airflow 3.0 DAG — 4 task pipeline
@@ -38,19 +40,16 @@ KE_Une/
 │
 ├── database/
 │   └── employment.db             # SQLite database (auto-created)
-│
 ├── src/
 │   ├── extract.py                # Step 1 — World Bank API + KNBS data
 │   ├── transform.py              # Step 2 — Clean, enrich, classify
 │   ├── load.py                   # Step 3 — Write to SQLite
 │   └── ai_insights.py            # AI policy insights & Q&A engine
-│
 ├── dashboard/
 │   └── app.py                    # Streamlit dashboard (6 charts + AI)
-│
 ├── requirements.txt
 └── README.md
-
+```
 # The Four Pipeline Tasks
 1. extract() - Pulls world bank API + generates KNBS data
 
@@ -92,17 +91,34 @@ I chose to use Ollama AI model, since it is free, data stays on your machine, it
 
 ## Setup and Installation
 1. Step 1 - Clone the Repository
-
+```bash
+git clone https://github.com/Chege-jr0/Kenya-Youth-Employment-Intelligence-Platform.git
+cd KE_Unemployment
+```
 2. Create Virtual Environment
-
+```bash
+python -m venv venv
+source venv/Scripts/Activate
+```
 3. Install Dependencies
-
+```bash
+pip install -r requirements.txt
+```
 4. Pull the AI model
-
+```bash
+ollama serve
+ollama pull tinyllama
+```
 5. Run the Pipeline
-
+```bash
+python src/extract.py
+python src/transform.py
+python src/load.py
+```
 6. Launch the Dashboard
-
+```bash
+streamlit run dashboard/app.py
+```
 ## Related Articles
 
 Medium: https://medium.com/@paulgikonyo100/i-built-an-ai-powered-youth-intelligence-platform-dashboard-to-track-the-rate-of-unemployment-here-69b1016e1764
