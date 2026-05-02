@@ -1,0 +1,81 @@
+sector,year,youth_absorption_rate,avg_monthly_salary_kes
+Agriculture,2018,34.6,46000.0
+Agriculture,2019,35.1,33000.0
+Agriculture,2020,36.7,28000.0
+Agriculture,2021,33.800000000000004,82000.0
+Agriculture,2022,36.1,49000.0
+Agriculture,2023,37.1,43000.0
+Agriculture,2024,34.0,40000.0
+Agriculture,2025,34.300000000000004,84000.0
+Manufacturing,2018,10.0,50000.0
+Manufacturing,2019,8.3,47000.0
+Manufacturing,2020,9.4,32000.0
+Manufacturing,2021,9.1,25000.0
+Manufacturing,2022,7.6000000000000005,21000.0
+Manufacturing,2023,10.200000000000001,19000.0
+Manufacturing,2024,9.0,66000.0
+Manufacturing,2025,10.3,73000.0
+Construction,2018,9.4,38000.0
+Construction,2019,8.799999999999999,21000.0
+Construction,2020,9.5,27000.0
+Construction,2021,8.6,74000.0
+Construction,2022,8.9,39000.0
+Construction,2023,10.1,17000.0
+Construction,2024,9.299999999999999,66000.0
+Construction,2025,10.299999999999999,32000.0
+Trade and Commerce,2018,15.2,25000.0
+Trade and Commerce,2019,16.2,26000.0
+Trade and Commerce,2020,16.9,50000.0
+Trade and Commerce,2021,14.299999999999999,42000.0
+Trade and Commerce,2022,16.3,28000.0
+Trade and Commerce,2023,15.6,21000.0
+Trade and Commerce,2024,16.7,43000.0
+Trade and Commerce,2025,15.299999999999999,43000.0
+Transport,2018,4.800000000000001,48000.0
+Transport,2019,7.800000000000001,26000.0
+Transport,2020,7.7,34000.0
+Transport,2021,7.4,73000.0
+Transport,2022,7.9,83000.0
+Transport,2023,6.2,63000.0
+Transport,2024,5.8,71000.0
+Transport,2025,6.2,51000.0
+ICT and Technology,2018,6.0,27000.0
+ICT and Technology,2019,4.8999999999999995,78000.0
+ICT and Technology,2020,5.7,35000.0
+ICT and Technology,2021,4.8,55000.0
+ICT and Technology,2022,6.699999999999999,54000.0
+ICT and Technology,2023,6.699999999999999,27000.0
+ICT and Technology,2024,4.1,55000.0
+ICT and Technology,2025,5.6,82000.0
+Education,2018,6.699999999999999,41000.0
+Education,2019,4.8,75000.0
+Education,2020,5.0,62000.0
+Education,2021,5.199999999999999,58000.0
+Education,2022,6.3,83000.0
+Education,2023,4.8999999999999995,62000.0
+Education,2024,6.3999999999999995,64000.0
+Education,2025,6.3999999999999995,34000.0
+HealthCare,2018,3.5,26000.0
+HealthCare,2019,5.3,76000.0
+HealthCare,2020,5.3,68000.0
+HealthCare,2021,4.2,54000.0
+HealthCare,2022,4.4,85000.0
+HealthCare,2023,5.9,51000.0
+HealthCare,2024,5.0,81000.0
+HealthCare,2025,4.9,45000.0
+Tourism and Hospitality,2018,6.199999999999999,59000.0
+Tourism and Hospitality,2019,8.5,33000.0
+Tourism and Hospitality,2020,6.199999999999999,66000.0
+Tourism and Hospitality,2021,6.7,34000.0
+Tourism and Hospitality,2022,6.5,75000.0
+Tourism and Hospitality,2023,7.8,34000.0
+Tourism and Hospitality,2024,7.5,45000.0
+Tourism and Hospitality,2025,7.8999999999999995,65000.0
+Financial Services,2018,4.5,42000.0
+Financial Services,2019,3.1000000000000005,18000.0
+Financial Services,2020,3.5000000000000004,17000.0
+Financial Services,2021,5.4,34000.0
+Financial Services,2022,6.0,24000.0
+Financial Services,2023,5.7,55000.0
+Financial Services,2024,5.6000000000000005,71000.0
+Financial Services,2025,4.1000000000000005,29000.0
